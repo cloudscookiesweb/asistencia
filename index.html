@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Asistencia · Cloud's Cookies</title>
+<style>
+:root{--yellow:#FFE8A3;--pink:#F9C6D3;--blue:#BFE3F5;--beige:#FFF4C2;--brown:#4A2E22;--soft:#8A6A5C;--line:#F3E4A8}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--beige);color:var(--brown);min-height:100vh}
+.wrap{max-width:440px;margin:0 auto;padding:24px 20px 40px}
+.brand{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+h1{font-size:28px;margin:4px 0 18px;font-weight:800}
+.card{background:#fff;border-radius:22px;padding:20px;box-shadow:0 2px 10px rgba(74,46,34,.06);margin-bottom:14px}
+label{display:block;font-size:13px;font-weight:700;color:var(--soft);margin:14px 0 6px}
+label:first-of-type{margin-top:0}
+select,input{width:100%;padding:14px;border:1px solid var(--line);border-radius:14px;font-size:16px;background:#fff;color:var(--brown)}
+.pin{letter-spacing:.5em;font-size:22px;text-align:center}
+.btn{width:100%;padding:16px;border:0;border-radius:16px;background:var(--brown);color:#fff;font-size:17px;font-weight:700;cursor:pointer;margin-top:18px}
+.btn:disabled{opacity:.5}
+.btn.pink{background:var(--pink);color:var(--brown)}
+.btn.small{width:auto;padding:8px 12px;font-size:13px;margin:0 0 0 6px;border-radius:10px;background:#F4EADD;color:var(--brown)}
+.btn.small.del{background:#FBE3E8;color:#8A1420}
+.hero{background:var(--pink);border-radius:22px;padding:20px;margin-bottom:14px}
+.hero .t{font-size:44px;font-weight:800;font-variant-numeric:tabular-nums}
+.hero .d{font-size:14px;text-transform:capitalize}
+.msg{border-radius:14px;padding:14px;font-size:15px;margin-top:14px;display:none}
+.msg.ok{display:block;background:#E3F5E8;color:#17652F}
+.msg.err{display:block;background:#FBE3E8;color:#8A1420}
+.msg.info{display:block;background:var(--blue);color:#1F4E66}
+.dist{font-size:13px;color:var(--soft);text-align:center;margin-top:12px}
+.hidden{display:none!important}
+.item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.item:last-child{border:0}
+.item small{display:block;color:var(--soft);font-size:12px;margin-top:2px}
+.item .acts{white-space:nowrap}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left}
+.link{background:none;border:0;color:var(--soft);font-size:13px;text-decoration:underline;cursor:pointer;padding:0;margin-top:18px;width:100%}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.help{font-size:12px;color:var(--soft);margin-top:6px}
+/* ===== Rediseño visual ===== */
+body{
+  background:linear-gradient(165deg,#FFF9DE 0%,#FFEFA8 55%,#FFF4C6 100%);
+  background-attachment:fixed;
+  position:relative;overflow-x:hidden
+}
+body::before,body::after{content:"";position:fixed;border-radius:50%;filter:blur(40px);opacity:.55;z-index:-1;pointer-events:none}
+body::before{width:320px;height:320px;background:#FFC9DA;top:-120px;right:-100px}
+body::after{width:280px;height:280px;background:#BFE3F5;bottom:-100px;left:-100px}
+.wrap{max-width:460px;padding:32px 22px 48px}
+.brand{display:inline-block;background:rgba(255,255,255,.7);padding:6px 12px;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:.16em;color:var(--brown)}
+h1{font-size:34px;letter-spacing:-.02em;margin:14px 0 18px;font-weight:900;color:var(--brown)}
+.hero{
+  position:relative;overflow:hidden;border-radius:28px;padding:24px 24px 22px;margin-bottom:18px;
+  background:linear-gradient(135deg,#FFD0E0 0%,#FFB9CE 100%);
+  box-shadow:0 14px 30px rgba(249,139,170,.35)
+}
+.hero::after{content:"";position:absolute;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.35);right:-40px;top:-50px}
+.hero .t{font-size:52px;font-weight:900;letter-spacing:-.02em;text-shadow:0 2px 0 rgba(255,255,255,.4)}
+.hero .d{font-size:14px;font-weight:600;opacity:.85;margin-top:2px}
+.card{
+  border-radius:26px;padding:24px;margin-bottom:18px;
+  background:rgba(255,255,255,.92);
+  box-shadow:0 12px 32px rgba(74,46,34,.10),0 2px 6px rgba(74,46,34,.05);
+  border:1px solid rgba(255,255,255,.8)
+}
+label{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--soft);margin:16px 0 8px}
+select,input{
+  border:2px solid #F6E7B0;border-radius:16px;background:#FFFDF6;padding:14px 16px;font-size:16px;color:var(--brown);
+  transition:border-color .2s,box-shadow .2s;outline:none;-webkit-appearance:none;appearance:none
+}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234A2E22' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+select:focus,input:focus{border-color:#F9A3BD;box-shadow:0 0 0 4px rgba(249,163,189,.25)}
+.pin{font-size:26px;font-weight:800;letter-spacing:.6em}
+.btn{
+  border-radius:18px;padding:17px;font-size:17px;font-weight:800;letter-spacing:.01em;
+  background:linear-gradient(135deg,#7A4B3A,#4A2E22);color:#fff;
+  box-shadow:0 10px 22px rgba(74,46,34,.28);
+  transition:transform .15s,box-shadow .15s,opacity .2s
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 26px rgba(74,46,34,.32)}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.55;transform:none;box-shadow:none}
+.btn.small{border-radius:12px;padding:8px 14px;font-size:13px;box-shadow:none;background:#FFF0B3;color:var(--brown);margin:0 0 0 8px}
+.btn.small:hover{background:#FFE58A;transform:none}
+.btn.small.del{background:#FFD6E0;color:#8A1420}
+.btn.small.del:hover{background:#FFBFD0}
+.msg{border-radius:18px;padding:14px 16px;font-size:15px;font-weight:600;margin-top:16px;display:none}
+.msg.ok{display:block;background:linear-gradient(135deg,#D9F7E4,#BDEFD0);color:#17652F}
+.msg.err{display:block;background:linear-gradient(135deg,#FFE0E8,#FFC9D6);color:#8A1420}
+.msg.info{display:block;background:linear-gradient(135deg,#D8EEFB,#BFE3F5);color:#1F4E66}
+.dist{font-size:13px;font-weight:700;color:var(--brown);margin-top:14px;text-align:center}
+.dist:empty{display:none}
+.link{font-size:13px;font-weight:700;color:var(--brown);text-decoration:none;background:rgba(255,255,255,.6);padding:10px 16px;border-radius:99px;margin-top:6px}
+.link:hover{background:#fff}
+.item{padding:14px 0;border-bottom:1px dashed #F3E4A8}
+.item .av{display:none}
+.item small{font-size:12px;color:var(--soft)}
+.help{font-size:12px;color:var(--soft);margin-top:8px;line-height:1.4}
+table{border-collapse:separate;border-spacing:0;font-size:13px}
+th{background:#FFF4C2;color:var(--brown);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:10px 8px;border:0}
+th:first-child{border-radius:12px 0 0 12px}
+th:last-child{border-radius:0 12px 12px 0}
+td{padding:10px 8px;border-bottom:1px solid #F7EDCB}
+.admin-title{display:inline-block;font-size:16px;font-weight:900;color:var(--brown);margin:0 0 14px}
+#admin h1{margin-top:12px}
+/* ===== Versión limpia: iconos y saludo ===== */
+body{background:#FFF6CC}
+body::before,body::after{display:none}
+.hero{background:#FFD6E4;box-shadow:none;border-radius:24px}
+.hero::after{display:none}
+.hero .t{text-shadow:none;font-size:48px}
+.card{background:#fff;box-shadow:0 2px 12px rgba(74,46,34,.08);border:0}
+.btn{background:var(--brown);box-shadow:none;display:flex;align-items:center;justify-content:center}
+.btn:hover{transform:none;box-shadow:none;opacity:.9}
+.greet{font-size:30px;font-weight:900;margin:14px 0 2px;color:var(--brown);letter-spacing:-.01em}
+.sub{font-size:15px;color:var(--soft);margin-bottom:18px}
+label svg{vertical-align:-3px;margin-right:6px;color:var(--soft)}
+.btn svg{margin-right:10px;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- MARCAR -->
+  <section id="kiosk">
+    <div class="brand">Cloud's Cookies</div>
+    <div class="greet" id="greet">¡Bienvenido!</div>
+    <div class="sub" id="sub">Selecciona tu nombre para marcar</div>
+
+    <div class="hero">
+      <div class="t" id="clock">--:--</div>
+      <div class="d" id="date"></div>
+    </div>
+
+    <div class="card">
+      <label for="emp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Tu nombre</label>
+      <select id="emp"></select>
+
+      <label for="pin"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Tu PIN</label>
+      <input id="pin" class="pin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="••••">
+
+      <button id="markBtn" class="btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5M15 12H3"/></svg>Marcar entrada / salida</button>
+      <div id="kmsg" class="msg"></div>
+      <div id="loc" class="dist"></div>
+    </div>
+
+    <button class="link" id="goAdmin">Administrador</button>
+  </section>
+
+  <!-- ADMIN -->
+  <section id="admin" class="hidden">
+    <div class="brand">Cloud's Cookies</div>
+    <h1>Administrador</h1>
+
+    <div id="lockBox" class="card">
+      <label id="lockLabel" for="apin">PIN de administrador</label>
+      <input id="apin" class="pin" type="password" inputmode="numeric" maxlength="8" autocomplete="off">
+      <button id="aBtn" class="btn">Entrar</button>
+      <div id="lockMsg" class="msg"></div>
+    </div>
+
+    <div id="panel" class="hidden">
+      <div class="card">
+        <label id="formTitle" style="color:var(--brown);font-size:16px">Nuevo empleado</label>
+        <input type="hidden" id="eid">
+
+        <label for="ename">Nombre</label>
+        <input id="ename">
+
+        <div class="grid2">
+          <div>
+            <label for="epin">PIN (4 números)</label>
+            <input id="epin" class="pin" inputmode="numeric" maxlength="4" autocomplete="off">
+          </div>
+          <div>
+            <label for="eradius">Radio (metros)</label>
+            <input id="eradius" type="number" min="10" max="500" value="50">
+          </div>
+        </div>
+
+        <label for="emap">Ubicación (pega el enlace de Google Maps o las coordenadas)</label>
+        <input id="emap" placeholder="-2.1709, -79.9224">
+        <div class="help">En Google Maps: clic derecho sobre el punto, copia las coordenadas y pégalas aquí.</div>
+
+        <button id="saveEmp" class="btn">Guardar empleado</button>
+        <button id="cancelEdit" class="link hidden">Cancelar edición</button>
+        <div id="emsg" class="msg"></div>
+      </div>
+
+      <div class="card">
+        <label style="color:var(--brown);font-size:16px;margin-bottom:6px">Empleados</label>
+        <div id="emps"></div>
+      </div>
+
+      <div class="card">
+        <div class="grid2" style="margin-bottom:10px">
+          <div>
+            <label for="fday">Día</label>
+            <input id="fday" type="date">
+          </div>
+          <div style="align-self:end">
+            <button id="csv" class="btn small" style="width:100%;margin:0;padding:12px">Exportar CSV</button>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr><th>Hora</th><th>Nombre</th><th>Tipo</th><th>Dist.</th><th></th></tr></thead>
+            <tbody id="rec"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <button class="link" id="goKiosk">← Volver a marcar</button>
+    </div>
+  </section>
+</div>
+
+<script>
+const KEY = "cc_asistencia_v1";
+const MAX_ACC = 150;   // precisión mínima del GPS aceptada (metros)
+const COOLDOWN = 3;    // minutos entre marcadas
+
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2, "0");
+
+let db = Object.assign({ adminPin: "", employees: [], records: [] }, load());
+let unlocked = false;
+let editingId = null;
+
+function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(db)); return true; }
+  catch (e) { alert("No se pudo guardar. El navegador bloqueó el almacenamiento."); return false; }
+}
+function localDay(iso) { const d = new Date(iso); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+function dist(a, b) {
+  const R = 6371000, t = x => x * Math.PI / 180;
+  const dLat = t(b.lat - a.lat), dLng = t(b.lng - a.lng);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(t(a.lat)) * Math.cos(t(b.lat)) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+function getPos() {
+  return new Promise((res, rej) => {
+    if (!navigator.geolocation) return rej(new Error("Este equipo no tiene ubicación disponible."));
+    navigator.geolocation.getCurrentPosition(
+      p => res(p.coords),
+      () => rej(new Error("No se pudo obtener la ubicación. Activa el GPS y da permiso al navegador.")),
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
+  });
+}
+// Acepta coordenadas pegadas ("-2.17, -79.92") o un enlace largo de Google Maps
+function parseCoords(s) {
+  s = (s || "").trim();
+  let m = s.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/) || s.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/) || s.match(/(-?\d{1,2}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)/);
+  if (!m) return null;
+  const lat = parseFloat(m[1]), lng = parseFloat(m[2]);
+  if (Math.abs(lat) > 90 || Math.abs(lng) > 180) return null;
+  return { lat, lng };
+}
+function msg(el, text, type) { el.textContent = text; el.className = "msg " + type; }
+
+/* Reloj */
+setInterval(() => {
+  const n = new Date();
+  $("clock").textContent = pad(n.getHours()) + ":" + pad(n.getMinutes());
+  $("date").textContent = n.toLocaleDateString("es-EC", { weekday: "long", day: "numeric", month: "long" });
+}, 1000);
+
+/* Marcar */
+function fillEmployees() {
+  const s = $("emp"), cur = s.value;
+  s.replaceChildren(new Option("Selecciona tu nombre", ""));
+  db.employees.forEach(e => s.append(new Option(e.name, e.id)));
+  s.value = cur;
+}
+async function mark() {
+  const btn = $("markBtn"), out = $("kmsg");
+  btn.disabled = true;
+  try {
+    const e = db.employees.find(x => x.id === $("emp").value);
+    if (!e) throw new Error("Selecciona tu nombre.");
+    if (e.pin !== $("pin").value.trim()) throw new Error("PIN incorrecto.");
+
+    const mine = db.records.filter(r => r.emp === e.id);
+    const last = mine[mine.length - 1];
+    if (last && Date.now() - new Date(last.ts) < COOLDOWN * 60000)
+      throw new Error("Ya marcaste hace menos de " + COOLDOWN + " minutos.");
+
+    msg(out, "Verificando ubicación…", "info");
+    const c = await getPos();
+    const d = Math.round(dist({ lat: c.latitude, lng: c.longitude }, e.loc));
+    $("loc").textContent = "A " + d + " m de tu punto asignado";
+    if (d > e.radius) throw new Error("Estás fuera de tu punto (a " + d + " m). Solo puedes marcar allí.");
+    if (c.accuracy > MAX_ACC) throw new Error("Señal imprecisa (±" + Math.round(c.accuracy) + " m). Intenta de nuevo.");
+
+    const type = last && last.type === "entrada" ? "salida" : "entrada";
+    db.records.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+      emp: e.id, name: e.name, type, ts: new Date().toISOString(), dist: d, acc: Math.round(c.accuracy) });
+    if (!save()) { db.records.pop(); throw new Error("No se guardó el registro."); }
+
+    msg(out, e.name + ": " + type.toUpperCase() + " registrada a las " +
+      new Date().toLocaleTimeString("es-EC", { hour: "2-digit", minute: "2-digit" }), "ok");
+    $("pin").value = "";
+  } catch (err) {
+    msg(out, String(err.message || err), "err");
+  } finally { btn.disabled = false; }
+}
+
+/* Admin */
+function resetForm() {
+  editingId = null;
+  $("eid").value = ""; $("ename").value = ""; $("epin").value = "";
+  $("eradius").value = 50; $("emap").value = "";
+  $("formTitle").textContent = "Nuevo empleado";
+  $("cancelEdit").classList.add("hidden");
+  $("saveEmp").textContent = "Guardar empleado";
+}
+function renderEmps() {
+  const box = $("emps"); box.replaceChildren();
+  if (!db.employees.length) { box.textContent = "Aún no hay empleados."; box.className = "help"; return; }
+  db.employees.forEach(e => {
+    const row = document.createElement("div"); row.className = "item";
+    const info = document.createElement("div");
+    info.textContent = e.name + "  ·  PIN " + e.pin;
+    const sm = document.createElement("small");
+    sm.textContent = e.loc.lat.toFixed(5) + ", " + e.loc.lng.toFixed(5) + " · radio " + e.radius + " m";
+    info.append(sm);
+    const acts = document.createElement("span"); acts.className = "acts";
+    const ed = document.createElement("button"); ed.className = "btn small"; ed.textContent = "Editar";
+    ed.onclick = () => {
+      editingId = e.id;
+      $("eid").value = e.id; $("ename").value = e.name; $("epin").value = e.pin;
+      $("eradius").value = e.radius; $("emap").value = e.loc.lat + ", " + e.loc.lng;
+      $("formTitle").textContent = "Editar: " + e.name;
+      $("saveEmp").textContent = "Guardar cambios";
+      $("cancelEdit").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    const del = document.createElement("button"); del.className = "btn small del"; del.textContent = "Eliminar";
+    del.onclick = () => {
+      if (!confirm("¿Eliminar a " + e.name + "? Sus registros se conservan.")) return;
+      db.employees = db.employees.filter(x => x.id !== e.id);
+      save(); renderEmps(); fillEmployees();
+    };
+    acts.append(ed, del);
+    row.append(info, acts);
+    box.append(row);
+  });
+}
+function saveEmployee() {
+  const name = $("ename").value.trim(), pin = $("epin").value.trim();
+  const radius = Math.min(500, Math.max(10, parseInt($("eradius").value, 10) || 50));
+  const loc = parseCoords($("emap").value);
+  if (!name) return msg($("emsg"), "Escribe el nombre.", "err");
+  if (!/^\d{4}$/.test(pin)) return msg($("emsg"), "El PIN debe tener 4 números.", "err");
+  if (!loc) return msg($("emsg"), "No reconozco la ubicación. Pega coordenadas como -2.1709, -79.9224.", "err");
+
+  if (editingId) {
+    const e = db.employees.find(x => x.id === editingId);
+    Object.assign(e, { name, pin, radius, loc });
+  } else {
+    db.employees.push({ id: Date.now().toString(36), name, pin, radius, loc });
+  }
+  if (!save()) return;
+  msg($("emsg"), "Guardado.", "ok");
+  resetForm(); renderEmps(); fillEmployees();
+}
+function renderRecs() {
+  const day = $("fday").value, tb = $("rec"); tb.replaceChildren();
+  const rows = db.records.filter(r => !day || localDay(r.ts) === day).slice().reverse();
+  if (!rows.length) {
+    const tr = document.createElement("tr"), td = document.createElement("td");
+    td.colSpan = 5; td.textContent = "Sin registros."; td.style.color = "var(--soft)";
+    tr.append(td); tb.append(tr); return;
+  }
+  rows.forEach(r => {
+    const tr = document.createElement("tr");
+    [new Date(r.ts).toLocaleString("es-EC", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }),
+     r.name, r.type, r.dist + " m"].forEach(t => { const td = document.createElement("td"); td.textContent = t; tr.append(td); });
+    const bd = document.createElement("td");
+    const b = document.createElement("button"); b.className = "btn small del"; b.textContent = "Borrar";
+    b.onclick = () => { if (confirm("¿Borrar este registro?")) { db.records = db.records.filter(x => x.id !== r.id); save(); renderRecs(); } };
+    bd.append(b); tr.append(bd); tb.append(tr);
+  });
+}
+function exportCsv() {
+  const rows = [["fecha_iso", "nombre", "tipo", "distancia_m", "precision_m"]]
+    .concat(db.records.map(r => [r.ts, r.name, r.type, r.dist, r.acc]));
+  const csv = rows.map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(",")).join("\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8" }));
+  a.download = "asistencia.csv"; a.click();
+}
+function showPanel() {
+  $("lockBox").classList.add("hidden"); $("panel").classList.remove("hidden");
+  renderEmps(); renderRecs();
+}
+function show(which) {
+  const admin = which === "admin";
+  $("kiosk").classList.toggle("hidden", admin);
+  $("admin").classList.toggle("hidden", !admin);
+  if (admin && unlocked) showPanel();
+  window.scrollTo(0, 0);
+}
+
+/* Eventos */
+$("markBtn").onclick = mark;
+$("emp").onchange = updateGreet;
+function updateGreet() {
+  const e = db.employees.find(x => x.id === $("emp").value);
+  const h = new Date().getHours();
+  const saludo = h < 12 ? "¡Buenos días" : h < 19 ? "¡Buenas tardes" : "¡Buenas noches";
+  $("greet").textContent = e ? "¡Hola, " + e.name + "!" : saludo + "!";
+  $("sub").textContent = e ? "Ingresa tu PIN y marca tu entrada o salida" : "Selecciona tu nombre para marcar";
+}
+$("goAdmin").onclick = () => show("admin");
+$("goKiosk").onclick = () => show("kiosk");
+$("saveEmp").onclick = saveEmployee;
+$("cancelEdit").onclick = resetForm;
+$("fday").onchange = renderRecs;
+$("csv").onclick = exportCsv;
+$("aBtn").onclick = () => {
+  const p = $("apin").value.trim();
+  if (!db.adminPin) {
+    if (p.length < 4) return msg($("lockMsg"), "Mínimo 4 caracteres.", "err");
+    db.adminPin = p; save(); unlocked = true; showPanel();
+  } else if (p === db.adminPin) { unlocked = true; showPanel(); }
+  else msg($("lockMsg"), "PIN incorrecto.", "err");
+};
+
+/* Inicio */
+if (!db.adminPin) $("lockLabel").textContent = "Crea tu PIN de administrador";
+fillEmployees();
+updateGreet();
+</script>
+</body>
+</html>
