@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Asistencia · Cloud's Cookies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--yellow:#FFE8A3;--pink:#F9C6D3;--blue:#BFE3F5;--beige:#FFF4C2;--brown:#4A2E22;--soft:#8A6A5C;--line:#F3E4A8}
 *{box-sizing:border-box}
@@ -118,6 +121,39 @@ body::before,body::after{display:none}
 .sub{font-size:15px;color:var(--soft);margin-bottom:18px}
 label svg{vertical-align:-3px;margin-right:6px;color:var(--soft)}
 .btn svg{margin-right:10px;flex-shrink:0}
+/* ===== Tipografía y diseño final ===== */
+*,button,input,select{font-family:'Poppins',system-ui,-apple-system,sans-serif}
+body{background:#FFF6CC;font-weight:400}
+body::before,body::after{display:none}
+.wrap{max-width:440px;padding:28px 18px 48px}
+.brand{background:#fff;text-transform:none;letter-spacing:.01em;font-size:13px;font-weight:600;color:var(--brown);padding:6px 14px;box-shadow:0 2px 8px rgba(74,46,34,.06)}
+.greet{font-size:28px;font-weight:700;letter-spacing:-.01em;margin:16px 0 4px}
+.sub{font-size:14px;color:var(--soft);margin-bottom:16px}
+h1{font-size:26px;font-weight:700;letter-spacing:-.01em;margin:14px 0 16px}
+.hero{background:#FFD6E4;border-radius:22px;padding:20px 22px;box-shadow:none;margin-bottom:16px}
+.hero .t{font-size:44px;font-weight:700;letter-spacing:-.01em;text-shadow:none}
+.hero .d{font-size:13px;font-weight:500;text-transform:capitalize}
+.card{border-radius:22px;padding:22px;box-shadow:0 4px 16px rgba(74,46,34,.07);border:0}
+label{text-transform:none;letter-spacing:0;font-size:13px;font-weight:600;color:var(--soft);margin:14px 0 6px}
+input,select{height:52px;padding:0 16px;border-radius:14px;border:1.5px solid #F3E4A8;font-size:15px;font-weight:500;background:#FFFDF5}
+select{padding-right:40px}
+input:focus,select:focus{border-color:#F9A3BD;box-shadow:0 0 0 4px rgba(249,163,189,.25)}
+.pin{font-size:22px;font-weight:600;letter-spacing:.5em;text-align:center}
+.pwd{position:relative}
+.pwd input{width:100%;padding-right:52px}
+.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;background:none;cursor:pointer;color:var(--soft);display:grid;place-items:center;border-radius:10px}
+.eye:hover{background:#FFF0B3;color:var(--brown)}
+.btn{height:52px;padding:0 18px;border-radius:14px;font-size:15px;font-weight:600;box-shadow:none;margin-top:16px}
+.btn:hover{transform:none;opacity:.92}
+.btn.small{height:auto;padding:8px 12px;font-size:12px;font-weight:600;border-radius:10px;margin:0 0 0 6px}
+.link{font-size:13px;font-weight:600;background:#fff;padding:9px 16px;border-radius:99px;box-shadow:0 2px 8px rgba(74,46,34,.06)}
+.msg{font-size:14px;font-weight:500;border-radius:14px}
+.dist{font-size:12px;font-weight:500}
+.help{font-size:12px}
+.item{font-size:14px;font-weight:600}
+.item small{font-weight:400}
+th{font-size:11px;letter-spacing:.02em;text-transform:none;font-weight:600;background:#FFF4C2}
+td{font-size:13px;font-weight:500}
 </style>
 </head>
 <body>
@@ -434,6 +470,28 @@ $("aBtn").onclick = () => {
 if (!db.adminPin) $("lockLabel").textContent = "Crea tu PIN de administrador";
 fillEmployees();
 updateGreet();
+
+/* Botón de ojo para ver el PIN mientras se escribe */
+const EYE_OPEN = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+const EYE_OFF = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.9 10.9 0 0 1 12 19c-7 0-11-7-11-7a19.8 19.8 0 0 1 5.06-5.94M9.9 4.24A10.9 10.9 0 0 1 12 4c7 0 11 7 11 7a19.8 19.8 0 0 1-3.17 4.19M1 1l22 22"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/></svg>';
+function addEye(inp) {
+  const wrap = document.createElement("div");
+  wrap.className = "pwd";
+  inp.parentNode.insertBefore(wrap, inp);
+  wrap.append(inp);
+  const b = document.createElement("button");
+  b.type = "button";
+  b.className = "eye";
+  b.setAttribute("aria-label", "Mostrar u ocultar");
+  b.innerHTML = EYE_OPEN;
+  b.onclick = () => {
+    const mostrar = inp.type === "password";
+    inp.type = mostrar ? "text" : "password";
+    b.innerHTML = mostrar ? EYE_OFF : EYE_OPEN;
+  };
+  wrap.append(b);
+}
+["pin", "apin", "epin"].forEach(id => addEye($(id)));
 </script>
 </body>
 </html>
